@@ -1,10 +1,15 @@
 # Stage 1 — Build
 FROM node:20-alpine AS builder
+
 WORKDIR /app
+
 COPY package*.json ./
-RUN npm install --legacy-peer-deps
+
+RUN npm install --force
+
 COPY . .
-RUN npm run build
+
+RUN ./node_modules/.bin/vite build
 
 # Stage 2 — Serve with Nginx
 FROM nginx:alpine
